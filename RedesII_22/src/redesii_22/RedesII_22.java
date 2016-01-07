@@ -44,7 +44,7 @@ public class RedesII_22 {
             {
                 byte temp       = raf.readByte();
                 columnParity    = columnParity ^ temp;
-                lineParity      = lineParity + temp;
+                lineParity     += doBitVerification(temp, i);
                 String tempStr  = "" + temp;
                 System.out.println(new BigInteger(tempStr.getBytes()).toString(2));
             }
@@ -53,9 +53,32 @@ public class RedesII_22 {
             tempOp              = "" + lineParity;
             System.out.println("Line " + (new BigInteger( tempOp.getBytes()).toString(2)) );
             raf.close();
+            
+            
         }catch(Exception e) {
             
         }
     }
+    
+    private static int doBitVerification( byte element, int position )
+    {
+        
+        int elem = 1;
+        
+        boolean isOne = false;
+        
+        for(int i = 0 ; i < 8 ; i ++)
+        {
+            if( (element & elem) > 0 )
+            {
+                isOne = !isOne;
+            }
+            
+            elem <<= 1;
+        }
+        
+        return (isOne) ? (1 << position) : 0;
+    }
+    
     
 }
