@@ -45,7 +45,7 @@ public class RedesII_22 {
                 byte temp       = raf.readByte();
                 columnParity    = columnParity ^ temp;
                 lineParity     += doBitVerification(temp, i);
-                String tempStr  = "" + temp;
+                String tempStr  = "" + temp ;
                 System.out.println(new BigInteger(tempStr.getBytes()).toString(2));
             }
             String tempOp       = "" + columnParity;
@@ -60,6 +60,14 @@ public class RedesII_22 {
         }
     }
     
+    /**
+     * This Method counts how many 1's bits have inside one byte. And them,
+     * return a number that could be use to create a line parity number
+     * 
+     * @param element
+     * @param position
+     * @return number
+     */
     private static int doBitVerification( byte element, int position )
     {
         
