@@ -22,6 +22,7 @@ public class RedesII_22 {
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner in          = new Scanner(System.in);
+        System.out.println("Insira uma mensagem:");
         String message      = in.nextLine();
         byte[] byteMessage  = message.getBytes();
         try{
@@ -44,14 +45,13 @@ public class RedesII_22 {
             {
                 byte temp       = raf.readByte();
                 columnParity    = columnParity ^ temp;
-                lineParity     += doBitVerification(temp, i);
-                String tempStr  = "" + temp ;
-                System.out.println(new BigInteger(tempStr.getBytes()).toString(2));
+                lineParity     += doBitVerification(temp, 8 - (i+1));
+                
+                System.out.println(getByte(Integer.toBinaryString(temp)));
             }
-            String tempOp       = "" + columnParity;
-            System.out.println("Column " + (new BigInteger( tempOp.getBytes()).toString(2)) );
-            tempOp              = "" + lineParity;
-            System.out.println("Line " + (new BigInteger( tempOp.getBytes()).toString(2)) );
+            System.out.println("Colunm\n"+ getByte( Integer.toBinaryString(columnParity) ) );
+            
+            System.out.println("Line\n"+getByte(Integer.toBinaryString(lineParity)));
             raf.close();
             
             
@@ -88,5 +88,21 @@ public class RedesII_22 {
         return (isOne) ? (1 << position) : 0;
     }
     
+    private static String getByte(String message)
+    {
+        int count           = 8 - message.length();
+        
+        String bitsMessage  = "";
+        
+        for (int i = 0; i < count; i++) {
+            bitsMessage    += "0";
+            
+        }
+        
+        bitsMessage        += message;
+        
+        return bitsMessage;
+        
+    }
     
 }
