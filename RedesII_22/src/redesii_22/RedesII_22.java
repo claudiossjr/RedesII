@@ -5,6 +5,7 @@
  */
 package redesii_22;
 
+import br.uff.redesIIparity.view.ConversationView;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
@@ -21,43 +22,46 @@ public class RedesII_22 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Scanner in          = new Scanner(System.in);
-        System.out.println("Insira uma mensagem:");
-        String message      = in.nextLine();
-        byte[] byteMessage  = message.getBytes();
-        try{
-            
-            RandomAccessFile raf = new RandomAccessFile(new File("Message.meta"), "rw");
-            
-            for(int i = 0 ; i < byteMessage.length; i ++)
-            {
-                raf.writeByte( byteMessage[i] );
-            }
-            
-            raf.close();
-            
-            raf = new RandomAccessFile( new File("Message.meta") , "r");
-            
-            int columnParity    = 0;
-            int lineParity      = 0;
-            
-            for(int i = 0; i < raf.length(); i ++)
-            {
-                byte temp       = raf.readByte();
-                columnParity    = columnParity ^ temp;
-                lineParity     += doBitVerification(temp, 8 - (i+1));
-                
-                System.out.println(getByte(Integer.toBinaryString(temp)));
-            }
-            System.out.println("Colunm\n"+ getByte( Integer.toBinaryString(columnParity) ) );
-            
-            System.out.println("Line\n"+getByte(Integer.toBinaryString(lineParity)));
-            raf.close();
-            
-            
-        }catch(Exception e) {
-            
-        }
+        
+        new ConversationView ();
+        
+//        Scanner in          = new Scanner(System.in);
+//        System.out.println("Insira uma mensagem:");
+//        String message      = in.nextLine();
+//        byte[] byteMessage  = message.getBytes();
+//        try{
+//            
+//            RandomAccessFile raf = new RandomAccessFile(new File("Message.meta"), "rw");
+//            
+//            for(int i = 0 ; i < byteMessage.length; i ++)
+//            {
+//                raf.writeByte( byteMessage[i] );
+//            }
+//            
+//            raf.close();
+//            
+//            raf = new RandomAccessFile( new File("Message.meta") , "r");
+//            
+//            int columnParity    = 0;
+//            int lineParity      = 0;
+//            
+//            for(int i = 0; i < raf.length(); i ++)
+//            {
+//                byte temp       = raf.readByte();
+//                columnParity    = columnParity ^ temp;
+//                lineParity     += doBitVerification(temp, 8 - (i+1));
+//                
+//                System.out.println(getByte(Integer.toBinaryString(temp)));
+//            }
+//            System.out.println("Colunm\n"+ getByte( Integer.toBinaryString(columnParity) ) );
+//            
+//            System.out.println("Line\n"+getByte(Integer.toBinaryString(lineParity)));
+//            raf.close();
+//            
+//            
+//        }catch(Exception e) {
+//            
+//        }
     }
     
     /**
