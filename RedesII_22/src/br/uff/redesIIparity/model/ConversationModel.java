@@ -114,7 +114,7 @@ public class ConversationModel {
         }
     }
 
-    private byte getLineParity(byte[] messagesInBytes) 
+    private byte getColumnParity(byte[] messagesInBytes) 
     {
         byte lineParity = 0;
         
@@ -125,7 +125,7 @@ public class ConversationModel {
         return lineParity;
     }
 
-    private byte getColumnParity(byte[] messagesInBytes) 
+    private byte getLineParity(byte[] messagesInBytes) 
     {
         byte columnParity = 0;
         
