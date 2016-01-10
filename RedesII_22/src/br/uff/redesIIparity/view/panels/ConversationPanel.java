@@ -49,16 +49,29 @@ public class ConversationPanel extends JPanel{
         GroupLayout layout = new GroupLayout ( this );
         
         layout.setHorizontalGroup( layout.createSequentialGroup()
+                
+            .addContainerGap()
+                
             .addGroup ( layout.createParallelGroup ( GroupLayout.Alignment.LEADING )
+                    
                     .addComponent ( taMessage )
-                    .addGap(10)
-                    .addComponent( btSend )
+                    
+                    .addGroup(layout.createSequentialGroup()
+                            .addContainerGap(0,350)
+                            .addComponent( btSend )
+                    )
+                    
             )
+            .addContainerGap()    
         );
         
         layout.setVerticalGroup( layout.createSequentialGroup()
+                .addGap(10)
                 .addComponent ( taMessage )
+                .addGap(10)
                 .addComponent ( btSend )
+                .addGap(10)
+                
         );
         
         this.setLayout ( layout );
@@ -77,6 +90,11 @@ public class ConversationPanel extends JPanel{
     public String getMessage ()
     {
         return (taMessage == null)  ?   ""  :   taMessage.getText (  ) ;
+    }
+
+    public void cleanTextArea() 
+    {
+        taMessage.setText ( "" );
     }
     
 }

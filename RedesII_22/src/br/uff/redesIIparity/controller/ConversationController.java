@@ -5,9 +5,12 @@
  */
 package br.uff.redesIIparity.controller;
 
+import br.uff.redesIIparity.model.ConversationModel;
 import br.uff.redesIIparity.view.panels.ConversationPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
@@ -15,6 +18,10 @@ import javax.swing.JButton;
  * @author claudio
  */
 public class ConversationController implements ActionListener{
+    
+    private final ConversationModel model = new ConversationModel (  );
+    
+    private final Logger logger = Logger.getLogger( ConversationController.class.getName() );
 
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -23,7 +30,16 @@ public class ConversationController implements ActionListener{
         
         ConversationPanel panel     = ( ConversationPanel ) btSend.getParent();
         
-        System.out.println( panel.getMessage());
+        String message              = panel.getMessage();
+        
+        try {
+            boolean wasSent = model.workMessage ( message );
+            
+            if(wasSent) panel.cleanTextArea (  );
+                
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+        }
         
     }
     

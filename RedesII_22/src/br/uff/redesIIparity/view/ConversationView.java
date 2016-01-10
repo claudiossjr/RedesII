@@ -23,6 +23,12 @@ public class ConversationView extends JFrame{
     {
         super();
         
+        initComponents ();
+        
+    }
+
+    private void initComponents() 
+    {
         this.add ( panel );
         
         this.setSize ( 800, 600 );
@@ -31,6 +37,9 @@ public class ConversationView extends JFrame{
         
         this.setVisible ( true );
         
+        this.setResizable ( false );
+        
+        this.setDefaultCloseOperation ( JFrame.EXIT_ON_CLOSE );
     }
     
     
