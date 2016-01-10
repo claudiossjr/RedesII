@@ -5,6 +5,7 @@
  */
 package br.uff.redesIIparity.controller;
 
+import br.uff.redesIIparity.Util.ParityMatriz;
 import br.uff.redesIIparity.model.ConversationModel_Receiver;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
 import java.awt.event.ActionEvent;
@@ -27,32 +28,35 @@ public class ConversationController_Receiver implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String caminho = null;
-        
-        JFileChooser abrir = new JFileChooser("..\\resources");
-        int retorno = abrir.showOpenDialog(null);
-        if (retorno == JFileChooser.APPROVE_OPTION) {
-            caminho = abrir.getSelectedFile().getAbsolutePath();
-        }
-        
+
         JButton btOpen = (JButton) e.getSource();
 
         ConversationPanel_Receiver panel = (ConversationPanel_Receiver) btOpen.getParent();
 
-        //String message = panel.getMessage();
-
         try {
-            //boolean wasSent = model.workMessage(message);
-
-            //if (wasSent) {
-                panel.cleanTextArea(caminho);
-            //}
             
+            byte[] vet = model.getMessage(getPath());
+            
+            ParityMatriz parityMatriz = new ParityMatriz(vet);
+            
+            panel.showParityMatriz(parityMatriz);
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
+    }
+
+    public static String getPath() {
+
+        String caminho = null;
+
+        JFileChooser abrir = new JFileChooser("..\\resources");
+        int retorno = abrir.showOpenDialog(null);
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            caminho = abrir.getSelectedFile().getAbsolutePath();
+        }
+        return caminho;
     }
 
 }

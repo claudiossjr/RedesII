@@ -31,7 +31,7 @@ public class ConversationView_Receiver extends JFrame{
     {
         this.add ( panel );
         
-        this.setSize ( 800, 600 );
+        this.setSize ( 900, 600 );
         
         this.setLocationRelativeTo ( null );
         
