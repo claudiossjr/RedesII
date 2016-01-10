@@ -39,8 +39,6 @@ public class ConversationModel {
                 countStopped     ++;
             }
             
-            countStopped        ++;
-            
             for( int i = 0 ; i < elementsRemaining; i++ )
             {
                 tempArray[i + countStopped] = '0';
