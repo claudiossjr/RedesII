@@ -32,14 +32,19 @@ public class ConversationController_Receiver implements ActionListener {
         JButton btOpen = (JButton) e.getSource();
 
         ConversationPanel_Receiver panel = (ConversationPanel_Receiver) btOpen.getParent();
+        
+        model.GetPanel(panel);
 
         try {
+            String caminho = getPath();
             
-            byte[] vet = model.getMessage(getPath());
+            byte[] vet = model.getMessage(caminho);
             
-            ParityMatriz parityMatriz = new ParityMatriz(vet);
+            model.Decoder(vet);
             
-            panel.showParityMatriz(parityMatriz);
+            //ParityMatriz parityMatriz = new ParityMatriz(vet);
+            
+            //panel.showParityMatriz(parityMatriz);
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
