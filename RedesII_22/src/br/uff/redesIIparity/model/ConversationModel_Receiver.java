@@ -8,7 +8,6 @@ package br.uff.redesIIparity.model;
 import br.uff.redesIIparity.model.services.ReceiverMessage;
 import br.uff.redesIIparity.Util.SytemHelper;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
-import com.sun.media.sound.EmergencySoundbank;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

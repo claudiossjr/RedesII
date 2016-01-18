@@ -5,6 +5,7 @@
  */
 package br.uff.redesIIparity.view.panels;
 
+import br.uff.redesIIparity.Util.HelperAttributes;
 import br.uff.redesIIparity.controller.ConversationController;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -20,6 +21,8 @@ public class ConversationPanel extends JPanel{
     private JButton                 btSend;
     
     private JTextArea               taMessage;
+    
+    private JButton                 btImportFile;
     
     private final ConversationController  controller;
     
@@ -39,9 +42,12 @@ public class ConversationPanel extends JPanel{
 
     private void initComponents() 
     {
-        this.btSend      = new JButton   ( "Send" );
+        this.btSend         = new JButton   ( HelperAttributes.BTSENDLABEL );
+        this.taMessage      = new JTextArea (  );
+        this.btImportFile   = new JButton   ( HelperAttributes.BTFILEIMPORTLABEL );
         
-        this.taMessage   = new JTextArea (  );
+        this.btSend.setName         ( HelperAttributes.BTSENDNAME );
+        this.btImportFile.setName   ( HelperAttributes.BTFILEIMPORTNAME );
     }
 
     private void initLayout() 
@@ -59,18 +65,24 @@ public class ConversationPanel extends JPanel{
                     .addGroup(layout.createSequentialGroup()
                             .addContainerGap(0,350)
                             .addComponent( btSend )
+                            .addContainerGap(0,20)
+                            .addComponent( btImportFile )
+                            .addContainerGap()
                     )
                     
             )
-            .addContainerGap()    
+            .addContainerGap(10,10)    
         );
         
         layout.setVerticalGroup( layout.createSequentialGroup()
                 .addGap(10)
                 .addComponent ( taMessage )
                 .addGap(10)
-                .addComponent ( btSend )
-                .addGap(10)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent ( btSend )
+                    .addGap(10)
+                    .addComponent ( btImportFile )
+                )
                 
         );
         
@@ -79,7 +91,8 @@ public class ConversationPanel extends JPanel{
 
     private void initListeners() 
     {
-        btSend.addActionListener (controller);
+        btSend.addActionListener        ( controller );
+        btImportFile.addActionListener  ( controller );
     }
     
     /**
@@ -91,10 +104,17 @@ public class ConversationPanel extends JPanel{
     {
         return (taMessage == null)  ?   ""  :   taMessage.getText (  ) ;
     }
-
+    
     public void cleanTextArea() 
     {
         taMessage.setText ( "" );
+    }
+
+    public void setButtonImportText(String name) 
+    {
+        String buttonName = (name != null) ? name : HelperAttributes.BTFILEIMPORTLABEL;
+        
+        btImportFile.setText( buttonName );
     }
     
 }

@@ -6,6 +6,14 @@
 package br.uff.redesIIparity.model;
 
 import br.uff.redesIIparity.model.services.SenderMessage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -163,6 +171,53 @@ public class ConversationModel {
         }
         
         return (isOne) ? (1 << position) : 0;
+    }
+
+    public void workFile(File selectedFile) throws IOException
+    {
+        this.sender.createCloneFileName ( selectedFile.getName() );
+        
+        RandomAccessFile raf = null;
+        
+        try {
+            raf = new RandomAccessFile( selectedFile, "r" );
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ConversationModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int count = 0;
+        
+        byte[] byteBuffer = getNewByteArray();
+        
+        int iteraction = 1;
+        
+        if( raf != null )
+        {
+            long length = raf.length();
+            while( count < length )
+            {
+                byteBuffer[iteraction - 1] = raf.readByte();
+                
+                if ( iteraction == 8 )
+                {
+                    
+                    sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
+                    
+                    iteraction = 1;
+                    byteBuffer = getNewByteArray();
+                }
+                
+                iteraction ++;
+                count ++;
+            }
+            
+            sender.closeFile();
+            
+            raf.close();
+        }
+        
+        
+        
     }
 
 }
