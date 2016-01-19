@@ -5,6 +5,7 @@
  */
 package br.uff.redesIIparity.model;
 
+import br.uff.redesIIparity.Util.ParityMatriz;
 import br.uff.redesIIparity.model.services.ReceiverMessage;
 import br.uff.redesIIparity.Util.SytemHelper;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
@@ -138,7 +139,7 @@ public class ConversationModel_Receiver {
         }
     }
 
-    private byte getLineParity(byte[] messagesInBytes) {
+    private byte getColumnParity(byte[] messagesInBytes) {
         byte lineParity = 0;
 
         for (int i = 0; i < messagesInBytes.length; i++) {
@@ -148,7 +149,7 @@ public class ConversationModel_Receiver {
         return lineParity;
     }
 
-    private byte getColumnParity(byte[] messagesInBytes) {
+    private byte getLineParity(byte[] messagesInBytes) {
         byte columnParity = 0;
 
         for (int i = 0; i < messagesInBytes.length; i++) {
@@ -257,6 +258,12 @@ public class ConversationModel_Receiver {
                 //Calculate the column parity
                 byte columnParity = getColumnParity(justMessage);
 
+                /*ParityMatriz mat = new ParityMatriz(tempVet);
+                panel.showParityMatriz(mat);
+                if(true){
+                    return true;
+                }*/
+                
                 //if the calculated are different from the received
                 if (columnParity == tempVet[0] && lineParity == tempVet[1]) {
                     //Write the message without the parity bytes
@@ -290,7 +297,7 @@ public class ConversationModel_Receiver {
                     }
                 }
             }
-
+            panel.showMessage("Arquivo recebido com sucesso");
         }
 
         sender.flushMessage();

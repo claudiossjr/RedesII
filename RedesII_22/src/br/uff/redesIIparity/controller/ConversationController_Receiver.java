@@ -5,12 +5,10 @@
  */
 package br.uff.redesIIparity.controller;
 
-import br.uff.redesIIparity.Util.ParityMatriz;
 import br.uff.redesIIparity.model.ConversationModel_Receiver;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
