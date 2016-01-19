@@ -80,7 +80,7 @@ public class ConversationController implements ActionListener{
             
             panel.setButtonImportText ( fileName );
             
-            
+            JOptionPane.showConfirmDialog(null, "Parity Caculated successfully.");
             
         }
         

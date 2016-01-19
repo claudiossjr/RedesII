@@ -6,10 +6,8 @@
 package br.uff.redesIIparity.model;
 
 import br.uff.redesIIparity.model.services.SenderMessage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
@@ -194,29 +192,50 @@ public class ConversationModel {
         if( raf != null )
         {
             long length = raf.length();
-            while( count < length )
+            
+            if( length < 8 )
             {
-                byteBuffer[iteraction - 1] = raf.readByte();
-                
-                if ( iteraction == 8 )
-                {
+                iteraction = (int)length;
+                for (int i = 0; i < length; i++) {
+                    byteBuffer[i] = raf.readByte();
                     
-                    sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
-                    
-                    iteraction = 1;
-                    byteBuffer = getNewByteArray();
                 }
-                
-                iteraction ++;
-                count ++;
             }
+            else
+            {
+                while( count < length )
+                {
+                    byteBuffer[iteraction - 1] = raf.readByte();
+
+                    if ( iteraction == 8 )
+                    {
+
+                        sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
+
+                        iteraction = 1;
+                        byteBuffer = getNewByteArray();
+                    }
+
+                    iteraction ++;
+                    count ++;
+                }
+            }
+            
+            if( iteraction < 8 )
+            {
+                int iteractionRemaining = 8 - iteraction + 1;
+                for (int i = 0; i < iteractionRemaining; i++) {
+                    byteBuffer[i+iteraction-1] = 0;
+                }
+                sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
+            }
+            
+            
             
             sender.closeFile();
             
             raf.close();
         }
-        
-        
         
     }
 

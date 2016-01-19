@@ -88,7 +88,7 @@ public class SenderMessage {
                 Logger.getLogger(SenderMessage.class.getName()).log(Level.SEVERE, "Can not create resources folder", ex);
             }
         }
-        String filePath    = originalPath + UUID.randomUUID().toString() + ".data";
+        String filePath    = originalPath + UUID.randomUUID().toString() + ".bin";
         
         try {
             raf                = new RandomAccessFile(filePath, "rw");
