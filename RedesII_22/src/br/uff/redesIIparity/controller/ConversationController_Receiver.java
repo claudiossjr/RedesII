@@ -9,6 +9,7 @@ import br.uff.redesIIparity.model.ConversationModel_Receiver;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -36,9 +37,13 @@ public class ConversationController_Receiver implements ActionListener {
         try {
             String caminho = getPath();
             
-            byte[] vet = model.getMessage(caminho);
+            //File selectedFile           = getSelectedFile (  );
             
-            model.Decoder(vet);
+            //byte[] vet = model.getMessage(caminho);
+            
+            
+            
+            model.getMessage(caminho);
             
             //ParityMatriz parityMatriz = new ParityMatriz(vet);
             
@@ -60,6 +65,21 @@ public class ConversationController_Receiver implements ActionListener {
             caminho = abrir.getSelectedFile().getAbsolutePath();
         }
         return caminho;
+    }
+    
+    private File getSelectedFile (  )
+    {
+        JFileChooser fileChooser = new JFileChooser ("..\\resources");
+        
+        int result = fileChooser.showOpenDialog ( null );
+        
+        if ( result == JFileChooser.APPROVE_OPTION )
+        {
+            File file = fileChooser.getSelectedFile();
+            return file;
+        }
+            
+        return null;
     }
 
 }

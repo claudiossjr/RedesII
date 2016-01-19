@@ -5,7 +5,6 @@
  */
 package br.uff.redesIIparity.model;
 
-import br.uff.redesIIparity.Util.ParityMatriz;
 import br.uff.redesIIparity.model.services.ReceiverMessage;
 import br.uff.redesIIparity.Util.SytemHelper;
 import br.uff.redesIIparity.view.panels.ConversationPanel_Receiver;
@@ -28,32 +27,108 @@ public class ConversationModel_Receiver {
     private final int ELEMENTSINPARITYARRAY = 10;
 
     private final ReceiverMessage sender = new ReceiverMessage();
-    
+
     private ConversationPanel_Receiver panel;
 
-    public byte[] getMessage(String path) {
-        return getBytes(path);
-    }
-
-    public byte[] getBytes(String path) {
-        byte[] vet = new byte[10];
+    public byte[] getMessage(String path) throws Exception {
+        //return workFile(path);
         RandomAccessFile raf = null;
+        
         try {
-            raf = new RandomAccessFile(new File(path), "r");
+            raf = new RandomAccessFile( path, "r" );
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(ConversationModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            long tamanho = raf.length();
+            long count = 1;
+            
+            byte[] vet = new byte[10];
+            
+            while(tamanho - count*10 > 0){
+                for (int i = 0; i < 10; i++) {
+                    vet[i] = raf.readByte();
+                }
+                Decoder(vet);
+                count++;
+            }
+            
+        } catch (IOException ex) {
             Logger.getLogger(ConversationModel_Receiver.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return null;
+    }
 
-        for (int i = 0; i < 10; i++) {
-            try {
-                vet[i] = raf.readByte();
-//                System.out.println(SytemHelper.getByteAsBitString(Integer.toBinaryString(vet[i])));
-            } catch (IOException ex) {
-                Logger.getLogger(ConversationModel_Receiver.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public byte [] workFile(File selectedFile) throws IOException
+    {
+        this.sender.createCloneFileName ( selectedFile.getName() );
+        
+        RandomAccessFile raf = null;
+        
+        try {
+            raf = new RandomAccessFile( selectedFile, "r" );
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ConversationModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        int count = 0;
+        
+        byte[] byteBuffer = getNewByteArray();
+        
+        int iteraction = 1;
+        
+        if( raf != null )
+        {
+            long length = raf.length();
+            
+            if( length < 8 )
+            {
+                iteraction = (int)length;
+                for (int i = 0; i < length; i++) {
+                    byteBuffer[i] = raf.readByte();
+                    
+                }
+            }
+            else
+            {
+                while( count < length )
+                {
+                    byteBuffer[iteraction - 1] = raf.readByte();
 
-        return vet;
+                    if ( iteraction == 8 )
+                    {
+
+                        //sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
+
+                        iteraction = 1;
+                        byteBuffer = getNewByteArray();
+                    }
+
+                    iteraction ++;
+                    count ++;
+                }
+            }
+            
+            if( iteraction < 8 )
+            {
+                int iteractionRemaining = 8 - iteraction + 1;
+                for (int i = 0; i < iteractionRemaining; i++) {
+                    byteBuffer[i+iteraction-1] = 0;
+                }
+                //sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
+            }
+            
+            
+            
+            //sender.closeFile();
+            
+            raf.close();
+            
+            return byteBuffer;
+        }
+        return null;
     }
 
     public boolean workMessage(String message) throws Exception {
@@ -183,8 +258,8 @@ public class ConversationModel_Receiver {
 
         return (isOne) ? (1 << position) : 0;
     }
-    
-    public void GetPanel(ConversationPanel_Receiver panel){
+
+    public void GetPanel(ConversationPanel_Receiver panel) {
         this.panel = panel;
     }
 
@@ -225,7 +300,7 @@ public class ConversationModel_Receiver {
         return false;
     }
 
-    public boolean Decoder(byte[] vet) throws Exception {
+    public boolean Decoder(byte [] vet ) throws Exception {
 
         if (vet.length % 10 != 0) {
             return false;
@@ -259,11 +334,10 @@ public class ConversationModel_Receiver {
                 byte columnParity = getColumnParity(justMessage);
 
                 /*ParityMatriz mat = new ParityMatriz(tempVet);
-                panel.showParityMatriz(mat);
-                if(true){
-                    return true;
-                }*/
-                
+                 panel.showParityMatriz(mat);
+                 if(true){
+                 return true;
+                 }*/
                 //if the calculated are different from the received
                 if (columnParity == tempVet[0] && lineParity == tempVet[1]) {
                     //Write the message without the parity bytes
@@ -275,7 +349,7 @@ public class ConversationModel_Receiver {
 
                 } else {
                     //Write error message
-                    String message = "Erro no bloco " + indice%10;
+                    String message = "Erro no bloco " + indice % 10;
                     panel.showMessage(message);
 
                     //if successful in the block correction, copy just the message and write to the file
@@ -292,7 +366,7 @@ public class ConversationModel_Receiver {
                         //Show a message and stop
                         message = message + "\n" + "Não foi possivel corrigir o erro";
                         panel.showMessage(message);
-                        
+
                         return false;
                     }
                 }

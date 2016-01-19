@@ -97,5 +97,25 @@ public class ReceiverMessage {
             Logger.getLogger(ReceiverMessage.class.getName()).log(Level.SEVERE, " Don't have file", ex);
         }
     }
+    public void createCloneFileName(String name) 
+    {
+        if( !Files.exists( path ) )
+        {
+            try {
+                Files.createDirectory( path );
+            } catch (IOException ex) {
+                Logger.getLogger(SenderMessage.class.getName()).log(Level.SEVERE, "Can not create resources folder", ex);
+            }
+        }
+        
+        String filePath    = originalPath + UUID.randomUUID().toString()+"-"+ name;
+        
+        try {
+            raf                = new RandomAccessFile(filePath, "rw");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SenderMessage.class.getName()).log(Level.SEVERE, " Don't have file", ex);
+        }
+        
+    }
     
 }
