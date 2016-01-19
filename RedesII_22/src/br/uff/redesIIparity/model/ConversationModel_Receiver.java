@@ -34,8 +34,10 @@ public class ConversationModel_Receiver {
         //return workFile(path);
         RandomAccessFile raf = null;
         
+        File file = new File(path);
+        
         try {
-            raf = new RandomAccessFile( path, "r" );
+            raf = new RandomAccessFile( file, "r" );
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ConversationModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,7 +52,7 @@ public class ConversationModel_Receiver {
                 for (int i = 0; i < 10; i++) {
                     vet[i] = raf.readByte();
                 }
-                Decoder(vet);
+                Decoder(vet, file.getName());
                 count++;
             }
             
@@ -167,7 +169,7 @@ public class ConversationModel_Receiver {
             if (iteration % 8 == 0) {
                 tempArrayPosition = 0;
 
-                boolean wasSent = sender.sendMessage(getByteArrayWithParity(messagesInBytes));
+                boolean wasSent = sender.sendMessage(getByteArrayWithParity(messagesInBytes), "");
 
                 messagesInBytes = getNewByteArray();
 
@@ -301,7 +303,7 @@ public class ConversationModel_Receiver {
         return false;
     }
 
-    public boolean Decoder(byte [] vet ) throws Exception {
+    public boolean Decoder(byte [] vet , String fileName) throws Exception {
 
         if (vet.length % 10 != 0) {
             return false;
@@ -342,7 +344,7 @@ public class ConversationModel_Receiver {
                 //if the calculated are different from the received
                 if (columnParity == tempVet[0] && lineParity == tempVet[1]) {
                     //Write the message without the parity bytes
-                    boolean wasSent = sender.sendMessage(justMessage);
+                    boolean wasSent = sender.sendMessage(justMessage, fileName);
 
                     if (!wasSent) {
                         throw new Exception("Message was not sent");
@@ -358,7 +360,7 @@ public class ConversationModel_Receiver {
                         for (int i = 2; i < 10; i++) {
                             justMessage[i] = tempVet[i];
                         }
-                        boolean wasSent = sender.sendMessage(justMessage);
+                        boolean wasSent = sender.sendMessage(justMessage, fileName);
 
                         if (!wasSent) {
                             throw new Exception("Message was not sent");

@@ -205,9 +205,9 @@ public class ConversationModel {
             {
                 while( count < length )
                 {
-                    byteBuffer[iteraction - 1] = raf.readByte();
+                    byteBuffer[(iteraction++) - 1] = raf.readByte();
 
-                    if ( iteraction == 8 )
+                    if ( iteraction > 8 )
                     {
 
                         sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
@@ -216,7 +216,6 @@ public class ConversationModel {
                         byteBuffer = getNewByteArray();
                     }
 
-                    iteraction ++;
                     count ++;
                 }
             }
@@ -225,7 +224,7 @@ public class ConversationModel {
             {
                 int iteractionRemaining = 8 - iteraction + 1;
                 for (int i = 0; i < iteractionRemaining; i++) {
-                    byteBuffer[i+iteraction-1] = 0;
+                    byteBuffer[i + iteraction - 1] = 0;
                 }
                 sender.writeBuffer( getByteArrayWithParity(byteBuffer) );
             }

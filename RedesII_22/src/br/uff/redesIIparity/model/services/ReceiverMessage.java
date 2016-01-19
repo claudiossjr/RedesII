@@ -39,11 +39,11 @@ public class ReceiverMessage {
         initComponents (  );
     }
     
-    public boolean sendMessage ( byte[] message )
+    public boolean sendMessage ( byte[] message , String fileName)
     {
         if( firstTime )
         {
-            createNewFile ();
+            createNewFile (fileName);
             firstTime = false;
         }
         
@@ -73,12 +73,12 @@ public class ReceiverMessage {
     {
         wholeMessageInByte = new ArrayList<>();
         
-        originalPath       = "../resources/";
+        originalPath       = "../finalResources/";
         
         path               = Paths.get( originalPath );
     }
 
-    private void createNewFile() 
+    private void createNewFile(String fileName) 
     {
         
         if( !Files.exists( path ) )
@@ -89,7 +89,7 @@ public class ReceiverMessage {
                 Logger.getLogger(ReceiverMessage.class.getName()).log(Level.SEVERE, "Can not create resources folder", ex);
             }
         }
-        String filePath    = originalPath + UUID.randomUUID().toString() + ".data";
+        String filePath    = originalPath + UUID.randomUUID().toString() + " -- " + fileName;
         
         try {
             raf                = new RandomAccessFile(filePath, "rw");
