@@ -58,6 +58,7 @@ public class ConversationModel_Receiver {
             Logger.getLogger(ConversationModel_Receiver.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        sender.flushMessage();
         return null;
     }
 
@@ -374,7 +375,6 @@ public class ConversationModel_Receiver {
             panel.showMessage("Arquivo recebido com sucesso");
         }
 
-        sender.flushMessage();
         return false;
     }
 
