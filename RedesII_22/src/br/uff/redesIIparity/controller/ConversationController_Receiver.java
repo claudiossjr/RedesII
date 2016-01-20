@@ -37,17 +37,9 @@ public class ConversationController_Receiver implements ActionListener {
         try {
             String caminho = getPath();
             
-            //File selectedFile           = getSelectedFile (  );
+            File file = new File(caminho);
             
-            //byte[] vet = model.getMessage(caminho);
-            
-            
-            
-            model.getMessage(caminho);
-            
-            //ParityMatriz parityMatriz = new ParityMatriz(vet);
-            
-            //panel.showParityMatriz(parityMatriz);
+            model.getMessage(file);
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
@@ -66,20 +58,4 @@ public class ConversationController_Receiver implements ActionListener {
         }
         return caminho;
     }
-    
-    private File getSelectedFile (  )
-    {
-        JFileChooser fileChooser = new JFileChooser ("..\\resources");
-        
-        int result = fileChooser.showOpenDialog ( null );
-        
-        if ( result == JFileChooser.APPROVE_OPTION )
-        {
-            File file = fileChooser.getSelectedFile();
-            return file;
-        }
-            
-        return null;
-    }
-
 }
