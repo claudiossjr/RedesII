@@ -42,7 +42,7 @@ public class ConversationModel_Receiver {
         
         try {
             long tamanho = raf.length();
-            long count = 1;
+            long count = 0;
             
             byte[] vet = new byte[10];
             
