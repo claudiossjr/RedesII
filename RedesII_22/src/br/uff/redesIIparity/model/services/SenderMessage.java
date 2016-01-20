@@ -72,7 +72,7 @@ public class SenderMessage {
     {
         wholeMessageInByte = new ArrayList<>();
         
-        originalPath       = "../resources/";
+        originalPath       = "resources/";
         
         path               = Paths.get( originalPath );
     }
